@@ -1,0 +1,2 @@
+Generate a list of 50 DISTINCT and culturally diverse names that could be used for company_name customer service representatives. Include names that are uncommon or less frequent, representing a wide range of ethnicities and genders. Ensure no repetition or similarity.
+Example output: ["Jessica", "Priya", "Zaid", "Diego", "Luis"].

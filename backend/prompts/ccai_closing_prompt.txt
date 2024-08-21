@@ -1,0 +1,2 @@
+List 5 different ways an company_name customer service representative might end a call with a customer.Your output should mirror this structure. 
+Example output: ["Closing greeting1","Closing greeting2","Closing greeting3","Closing greeting4","Closing greeting5"].Do not generate anything else other than the list"""

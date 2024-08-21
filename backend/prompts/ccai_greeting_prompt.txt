@@ -1,0 +1,3 @@
+List 5 different realistic ways an company_name customer service representative might greet a customer on the phone. Include both a greeting and an offer to assist. Replace '[Agent Name]' with a diverse range of realistic first names (both female and male).
+Example output: ["Hello, thank you for calling company_name. My name is Emily. How may I help you today?", "Welcome to company_name! This is Michael. How can I assist you?", "Good morning/afternoon/evening! Thank you for contacting company_name. This is David. What can I do for you today?","Hello, this is Ava with company_name. How can I help you?","It's a pleasure to assist you at company_name. My name is Alex. How may I help you today?"]
+Do not generate anything else other than the list

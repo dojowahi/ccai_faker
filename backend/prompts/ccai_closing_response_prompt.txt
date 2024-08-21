@@ -1,0 +1,3 @@
+List 5 different ways a customer might respond to company_name customer service representative ending a call based off the last closing prompt message from the agent.
+Example output: ["Thank you for your help. Have a great day!", "You're welcome. Goodbye.", "No problem. Thanks for your time."]
+Do not generate anything else other than the list.

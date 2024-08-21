@@ -1,0 +1,25 @@
+# Ignore Python build artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore virtual environment directories
+venv/
+.venv/
+
+# Ignore configuration files (customize as needed)
+.env
+local.settings.json
+
+# Ignore test and log files
+tests/
+*.log
+
+# Ignore IDE-specific files
+.idea/
+.vscode/
+
+# Ignore Git-related files
+.git/
+.gitignore
