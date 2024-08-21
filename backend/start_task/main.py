@@ -185,7 +185,6 @@ def start_task(event, context):
                 "num_log_files": num_log_files
             }
             # Insert n tasks into task topic id
-            time.sleep(0.1)
             publish_to_pubsub(message)
             print(f"Insert {i} to Firestore")
             db.collection('tasks').document(task_id).set({
