@@ -2,7 +2,7 @@
 
 ![Architecture Diagram](/static/ccai_faker_architeture.png)
 
-Generates synthetic conversation of customer service calls using Gemini, which can be fed into Google CLoud's CCAI product.
+Generates synthetic conversation of customer service calls using Gemini, which can be fed into Google Cloud's CCAI product.
 
 ## Features
 
