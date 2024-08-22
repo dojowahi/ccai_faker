@@ -76,9 +76,9 @@ gcloud functions deploy check_ccai_status \
     --set-env-vars ZIP_TOPIC_ID=${ZIP_TOPIC},BUCKET_NAME=${BUCKET_NAME},PROJECT_ID=${PROJECT_ID},FIRESTORE_DB=${FIRESTORE_DB} \
     --service-account=genai-592@gen-ai-4all.iam.gserviceaccount.com 
 
-cd /home/admin_ankurwahi_altostrat_com/ccaifunc/frontend
-gcloud builds submit --tag us-central1-docker.pkg.dev/gen-ai-4all/genai/ccai:v1.0.0
-gcloud run deploy ccai-generator --image us-central1-docker.pkg.dev/gen-ai-4all/genai/ccai:v1.0.0 --port 8080 --service-account genai-592@gen-ai-4all.iam.gserviceaccount.com --region us-central1 --allow-unauthenticated
+cd ~/ccaifunc/frontend
+gcloud builds submit --tag us-central1-docker.pkg.dev/${PROJECT_ID}/genai/ccai:v1.0.0
+gcloud run deploy ccai-generator --image us-central1-docker.pkg.dev/${PROJECT_ID}/genai/ccai:v1.0.0 --port 8080 --service-account genai-592@gen-ai-4all.iam.gserviceaccount.com --region us-central1 --allow-unauthenticated
       
 
 
