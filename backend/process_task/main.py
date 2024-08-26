@@ -64,7 +64,9 @@ def get_lists(group_id):
         agent_names = data['agent_names_text']
         closing_remarks = data['closing_remarks_text']
         closing = data['closing_responses_text']
-        return services, problems, greetings, closing_remarks, closing, agent_names 
+        start_date = data['start_date']
+        end_date = data['end_date']
+        return services, problems, greetings, closing_remarks, closing, agent_names,start_date, end_date
     else:
         print(f"Error:Document does not exist")
 
@@ -109,8 +111,10 @@ def process_task(event, context):
     
     try:
         # services, problems, greetings, closing_remarks, closing, agent_names = generate_lists(company_name,company_website,company_reviews,temperature)
-        services, problems, greetings, closing_remarks, closing, agent_names = get_lists(group_id)
-        json_object = generate_log(company_name,services, problems, greetings, closing_remarks, closing, agent_names,temperature)
+        services, problems, greetings, closing_remarks, closing, agent_names,start_date,end_date = get_lists(group_id)
+        log_date = random_date_between(start_date,end_date)
+        print(f"Generate log for date {log_date}")
+        json_object = generate_log(company_name,services, problems, greetings, closing_remarks, closing, agent_names,temperature,log_date)
 
         if json_object is not None:
             storage_client = storage.Client()
@@ -176,7 +180,28 @@ safety_settings = {
     HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,
 }
 
-def generate_log(company_name,services, problems, greetings, closing_remarks, closing_responses, agent_names, temperature,max_retries=3):
+def random_date_between(start_date_str, end_date_str, format="%Y-%m-%d"):
+  """Generates a random date between two given date strings (inclusive).
+
+  Args:
+      start_date_str: The start date string.
+      end_date_str: The end date string.
+      format: The format of the date strings (default is YYYY-MM-DD).
+
+  Returns:
+      A random date string between the start and end dates (inclusive).
+  """
+
+  start_date = datetime.datetime.strptime(start_date_str, format).date()
+  end_date = datetime.datetime.strptime(end_date_str, format).date()
+
+  delta = end_date - start_date
+  random_days = random.randrange(delta.days + 1)
+
+  random_date = start_date + datetime.timedelta(days=random_days)
+  return random_date.strftime(format)
+
+def generate_log(company_name,services, problems, greetings, closing_remarks, closing_responses, agent_names, temperature,log_date,max_retries=3):
     generation_config = GenerationConfig(
     temperature=temperature,
     top_p=1.0,
@@ -188,8 +213,13 @@ def generate_log(company_name,services, problems, greetings, closing_remarks, cl
     problem_description = random.choice(problems)
 
     # Generate timestamps
-    timestamp = int(datetime.datetime.now().timestamp() * 1000000)
-    response_delay = random.randint(1000000, 3000000)  # 1 to 3 seconds in microseconds
+    start_timestamp = int(datetime.datetime.now().timestamp() * 1000000)
+      # 1 to 20 seconds in microseconds
+    format = "%Y-%m-%d"  # Format for YYYY-MM-DD
+
+    date_obj = datetime.datetime.strptime(log_date, format)
+    start_timestamp = int(date_obj.timestamp() * 1000000)
+    response_delay = random.randint(1000000, 10000000)
 
     # Pick a random agent name
     agent_name = random.choice(agent_names)
@@ -298,7 +328,7 @@ def generate_log(company_name,services, problems, greetings, closing_remarks, cl
 
             # Add timestamps
             for i, entry in enumerate(entries):
-                entry["start_timestamp_usec"] = timestamp + response_delay * i
+                entry["start_timestamp_usec"] = start_timestamp + response_delay * i
 
             # Replace any remaining placeholders
             for entry in entries:

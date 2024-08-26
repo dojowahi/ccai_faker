@@ -6,6 +6,7 @@ import theme
 from dotenv import load_dotenv
 import logging 
 import os
+import datetime
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 load_dotenv()
@@ -64,6 +65,23 @@ def ccai_datagen():
 
         # with ui.row().classes('items-center q-mb-sm'):  # Align number input and buttons in a row
         num_log_files_input = ui.number(label='Number of log files', value=1, min=1, max=10001, precision=0,step=1).props('rounded outlined dense').style('width: 150px').classes('q-mb-sm')
+        
+        with ui.input('Log Start Date') as start_date:
+            with ui.menu().props('no-parent-event') as menu:
+                with ui.date().bind_value(start_date):
+                    with ui.row().classes('justify-end'):
+                        ui.button('Close', on_click=menu.close).props('flat')
+            with start_date.add_slot('append'):
+                ui.icon('edit_calendar').on('click', menu.open).classes('cursor-pointer')
+
+        with ui.input('Log End Date') as end_date:
+            with ui.menu().props('no-parent-event') as menu:
+                with ui.date().bind_value(end_date):
+                    with ui.row().classes('justify-end'):
+                        ui.button('Close', on_click=menu.close).props('flat')
+            with end_date.add_slot('append'):
+                ui.icon('edit_calendar').on('click', menu.open).classes('cursor-pointer')
+
 
         ui.label('Temperature')
         temperature_slider = ui.slider(min=0, max=1, step=0.1, value=0.5).props('label-always') \
@@ -77,15 +95,20 @@ def ccai_datagen():
 
         def submit():
             group_id = str(uuid.uuid4())
+            
+            
+
             message = {
                 "group_id": group_id,
                 "company_name": company_name_input.value,
                 "company_website": company_website_input.value,
                 "company_reviews": company_reviews_input.value,
                 "temperature": temperature_slider.value,
-                "num_log_files": int(num_log_files_input.value)
+                "num_log_files": int(num_log_files_input.value),
+                "start_date": start_date.value,
+                "end_date": end_date.value
             }
-            print(f"Log files:{num_log_files_input.value}, Company_Name:{company_name_input.value}, GroupId:{group_id}")
+            print(f"Log files:{num_log_files_input.value}, Company_Name:{company_name_input.value}, GroupId:{group_id}, StartDate:{start_date.value}")
 
 
             publish_to_pubsub(message)

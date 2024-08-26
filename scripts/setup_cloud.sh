@@ -71,6 +71,7 @@ gcloud functions deploy check_ccai_status \
     --entry-point check_status \
     --runtime python311 \
     --memory 1Gi \
+    --timeout 1800 \
     --trigger-http \
     --allow-unauthenticated \
     --set-env-vars ZIP_TOPIC_ID=${ZIP_TOPIC},BUCKET_NAME=${BUCKET_NAME},PROJECT_ID=${PROJECT_ID},FIRESTORE_DB=${FIRESTORE_DB} \

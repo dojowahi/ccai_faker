@@ -69,7 +69,7 @@ def load_prompt(object_name):
     except Exception as e:
         return f"Error loading prompt: {e}"
     
-def generate_lists(group_id,company_name,company_website,company_reviews,temperature):
+def generate_lists(group_id,company_name,company_website,company_reviews,temperature,start_date,end_date):
     generation_config = GenerationConfig(
     temperature=temperature,
     top_p=1.0,
@@ -143,6 +143,8 @@ def generate_lists(group_id,company_name,company_website,company_reviews,tempera
                     'agent_names_text':agent_names_text,
                     'closing_remarks_text':closing_remarks_text,
                     'closing_responses_text':closing_responses_text,
+                    'start_date': start_date,
+                    'end_date': end_date,
                     'timestamp': current_timestamp
                 })
     # logger.info(f"Responses:{services_text}->{problems_text}->{greetings_text}->{closing_responses_text}")
@@ -164,11 +166,13 @@ def start_task(event, context):
         company_reviews = message['company_reviews']
         temperature = message['temperature']
         num_log_files = message['num_log_files']
+        start_date = message['start_date']
+        end_date = message['end_date']
         print(f"Log files:{num_log_files}, Company_Name:{company_name}, Temperature:{temperature}")
     except Exception as e:
         print(f"Unable to parse message {e}")
 
-    generate_lists(group_id,company_name,company_website,company_reviews,temperature)
+    generate_lists(group_id,company_name,company_website,company_reviews,temperature,start_date,end_date)
 
     try:
         for i in range(int(num_log_files)):
