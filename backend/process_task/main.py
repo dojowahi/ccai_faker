@@ -51,6 +51,16 @@ def load_prompt(object_name):
     except Exception as e:
         return f"Error loading prompt: {e}"
     
+def random_date_between(start_date_str, end_date_str, format="%Y-%m-%d"):
+  start_date = datetime.datetime.strptime(start_date_str, format)
+  end_date = datetime.datetime.strptime(end_date_str, format)
+  total_seconds = int((end_date - start_date).total_seconds())
+  random_seconds = random.randrange(total_seconds)
+  random_datetime = start_date + datetime.timedelta(seconds=random_seconds)
+  random_hour = random.randint(0, 23)
+  random_minute = random.randint(0, 59)
+  random_datetime = random_datetime.replace(hour=random_hour, minute=random_minute)
+  return random_datetime.strftime("%Y-%m-%d %H:%M")
 
 def get_lists(group_id):
     doc_ref = db.collection('gemini_lists').document(group_id)
@@ -180,26 +190,6 @@ safety_settings = {
     HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,
 }
 
-def random_date_between(start_date_str, end_date_str, format="%Y-%m-%d"):
-  """Generates a random date between two given date strings (inclusive).
-
-  Args:
-      start_date_str: The start date string.
-      end_date_str: The end date string.
-      format: The format of the date strings (default is YYYY-MM-DD).
-
-  Returns:
-      A random date string between the start and end dates (inclusive).
-  """
-
-  start_date = datetime.datetime.strptime(start_date_str, format).date()
-  end_date = datetime.datetime.strptime(end_date_str, format).date()
-
-  delta = end_date - start_date
-  random_days = random.randrange(delta.days + 1)
-
-  random_date = start_date + datetime.timedelta(days=random_days)
-  return random_date.strftime(format)
 
 def generate_log(company_name,services, problems, greetings, closing_remarks, closing_responses, agent_names, temperature,log_date,max_retries=3):
     generation_config = GenerationConfig(
@@ -213,9 +203,9 @@ def generate_log(company_name,services, problems, greetings, closing_remarks, cl
     problem_description = random.choice(problems)
 
     # Generate timestamps
-    start_timestamp = int(datetime.datetime.now().timestamp() * 1000000)
+    # start_timestamp = int(datetime.datetime.now().timestamp() * 1000000)
       # 1 to 20 seconds in microseconds
-    format = "%Y-%m-%d"  # Format for YYYY-MM-DD
+    format = "%Y-%m-%d %H:%M"  # Format for YYYY-MM-DD
 
     date_obj = datetime.datetime.strptime(log_date, format)
     start_timestamp = int(date_obj.timestamp() * 1000000)
