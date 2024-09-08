@@ -73,7 +73,7 @@ jobs:
                                     --allow-unauthenticated \
                                     --set-env-vars ZIP_TOPIC_ID=${{ env.ZIP_TOPIC }},BUCKET_NAME=${{ secrets.BUCKET_NAME }},PROJECT_ID=${{ secrets.GCP_PROJECT_ID }},FIRESTORE_DB=${{ secrets.FIRESTORE_DB }} \
                                     --service-account=${{ secrets.GCP_SA }} 
-          elif [ ${{ matrix.function }} -eq 2 ]; then
+          elif [ ${{ matrix.function }} -eq 3 ]; then
             # Process Task 
             echo " ################Deploying Process Task Cloud function####################"
             cd backend/process_task
