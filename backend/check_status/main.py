@@ -144,6 +144,7 @@ def check_status(request):
     else:
         return {"message": "Job NOT completed.", "status_counts": status_counts, "num_log_files": num_log_files, "total_documents": total_documents}
 
+# Check existence of zip file by querying firestore
 def check_zip_file_exist(group_id):
     from datetime import datetime, timedelta
     cutoff_time = datetime.utcnow() - timedelta(minutes=60)
