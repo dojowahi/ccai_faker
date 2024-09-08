@@ -73,7 +73,7 @@ def zip_task(event, context):
         # Handle any other unexpected errors
         print(f"Upload failed after retries: {e}")
         
-
+# Create zip file and signed_url for download
 def zip_files_and_create_signed_url(folder_name, zip_file_name, expiration_minutes=60):
     try:
         # Initialize GCS clients and download service account key
