@@ -68,7 +68,8 @@ def load_prompt(object_name):
         return file_content
     except Exception as e:
         return f"Error loading prompt: {e}"
-    
+
+#Generate sample data which will be inserted into Firestore DB    
 def generate_lists(group_id,company_name,company_website,company_reviews,temperature,start_date,end_date):
     generation_config = GenerationConfig(
     temperature=temperature,
