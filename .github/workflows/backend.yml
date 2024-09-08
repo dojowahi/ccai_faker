@@ -3,7 +3,9 @@ name: Deploy Cloud Functions
 on:
   push:
     branches:
-      - main  
+      - main 
+    paths:
+    - 'backend/**'  # Trigger only on changes to the frontend folder 
 
 env:
   GCP_REGION: us-central1   
