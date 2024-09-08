@@ -42,7 +42,7 @@ def zip_task(event, context):
         zip_name = message['zip_name']
         folder = message['folder']
         current_timestamp = message['current_timestamp']
-
+        print(f"Start zipping for group {group_id}")
     except Exception as e:
         print(f"Unable to parse message {e}")
 

@@ -124,7 +124,7 @@ def check_status(request):
                 publish_to_pubsub(zip_message)
                 # url = zip_files_and_create_signed_url(folder,zip_name)
                 return {
-                    "message": "Job completed, zipping process started. Check back in 10 minutes",
+                    "message": "Job completed, zipping process started. Check back in 10 minutes. \n",
                     "status_counts": status_counts,
                     "data_path": folder
                 }
@@ -132,7 +132,7 @@ def check_status(request):
         if not completed_document_found:
             if total_documents == 0:
                 return {
-                    "message": "Your group_id is yet to be processed.Check after 15 minutes",
+                    "message": "Your group_id is yet to be processed.Check after 15 . \n",
                     "status_counts": status_counts,"num_log_files": num_log_files, "total_documents": total_documents
                 }
             else:
