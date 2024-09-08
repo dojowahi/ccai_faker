@@ -93,30 +93,6 @@ def generate_lists(group_id,company_name,company_website,company_reviews,tempera
   
     closing_response_prompt_file_path = "prompts/ccai_closing_response_prompt.txt"
     closing_response_prompt = load_prompt(closing_response_prompt_file_path).replace("company_name",company_name)
-    
-    # with concurrent.futures.ThreadPoolExecutor() as executor:
-    #     futures = [
-    #         executor.submit(get_gemini_response, model, service_prompt, generation_config=generation_config),
-    #         executor.submit(get_gemini_response, model, problem_prompt, generation_config=generation_config),
-    #         executor.submit(get_gemini_response, model, greeting_prompt, generation_config=generation_config),
-    #         executor.submit(get_gemini_response, model, agent_name_prompt, generation_config=generation_config),
-    #         executor.submit(get_gemini_response, model, closing_prompt, generation_config=generation_config),
-    #         executor.submit(get_gemini_response, model, closing_response_prompt, generation_config=generation_config),
-    #     ]
-
-    # # Get responses from Gemini and clean up the output for CCAI Insights formatting
-    # services_text = futures[0].result().strip()[1:-1].replace('"', '').split(",")
-
-    # problems_text = futures[1].result().strip()[1:-1].replace('"', '').replace("\n", "").split(",")
-
-    # greetings_text = futures[2].result().strip()[1:-1].replace('"', '').replace("\n", "").split(",")
-
-    # agent_names_text = futures[3].result().strip()[1:-1].replace('"', '').split(",")
-
-    # closing_remarks_text = futures[4].result().strip()[1:-1].replace('"', '').split(",")
-    
-    # closing_responses_text = futures[5].result().strip()[1:-1].replace('"', '').replace('-', '').split(",")
-
     service = get_gemini_response(model,service_prompt, generation_config=generation_config)
     problem = get_gemini_response(model,problem_prompt, generation_config=generation_config)
     greeting = get_gemini_response(model,greeting_prompt, generation_config=generation_config)

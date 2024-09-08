@@ -1,2 +1,2 @@
-Generate a list of 50 DISTINCT and culturally diverse names that could be used for Vail Resorts customer service representatives. Include names that are uncommon or less frequent, representing a wide range of ethnicity and genders. Ensure no repetition or similarity.
-Names: ["name1","name2"]
+Generate a list of 10 DISTINCT names that could be used for company_name customer service representatives.Ensure no repetition or similarity.
+Example output: ["Jessica", "Priya", "Zaid", "Diego", "Luis"].
