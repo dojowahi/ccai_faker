@@ -110,7 +110,7 @@ jobs:
           fi
           cd ../..
 
-        - name: Copy files to Cloud Storage
-          run: |
-            echo "Copying files to Cloud Storage..."
-            gsutil -m cp -r prompts/* gs://${{ secrets.BUCKET_NAME }}/prompts/
+      - name: Copy files to Cloud Storage
+        run: |
+          echo "Copying files to Cloud Storage..."
+          gsutil -m cp -r prompts/* gs://${{ secrets.BUCKET_NAME }}/prompts/
