@@ -11,9 +11,13 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 load_dotenv()
 
-project_id = os.getenv("PROJECT_ID")
-topic_id = os.getenv("START_TOPIC_ID")
+# Uses values from .env, good for local testing
+# project_id = os.getenv("PROJECT_ID")
+# topic_id = os.getenv("START_TOPIC_ID")
 
+# Use value from github action
+project_id = os.environ.get('PROJECT_ID')
+topic_id = os.environ.get('START_TOPIC_ID')
 # Initialize Pub/Sub
 
 
