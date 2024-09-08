@@ -164,7 +164,7 @@ def start_task(event, context):
                 "temperature": temperature,
                 "num_log_files": num_log_files
             }
-            print(f"{i} task {task_id} published for {group_id},{company_name},{company_website},{company_reviews},{type(num_log_files)}")
+            print(f"Message to be published {message}")
 
             # Insert n tasks into task topic id
             publish_to_pubsub(message)
