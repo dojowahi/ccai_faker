@@ -1,1 +1,2 @@
-Generate a list of 5 DISTINCT names that could be used for company_name customer service representatives.Ensure no repetition or similarity.Ensure output is a list  ["Jessica", "Priya", "Zaid", "Diego", "Luis"]
+Generate a list of 5 DISTINCT names that could be used for company_name customer service representatives.Ensure no repetition or similarity.
+Ensure output is a list  ["Jessica", "Priya", "Zaid", "Diego", "Luis"]
