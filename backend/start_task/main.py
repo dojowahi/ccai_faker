@@ -106,18 +106,18 @@ def generate_lists(group_id,company_name,company_website,company_reviews,tempera
 
     greetings_text = greeting.strip()[1:-1].replace('"', '').replace("\n", "").split(",")
 
-    agent_names_text = agent.strip()[1:-1].replace('"', '').split(",")
+    # agent_names_text = agent.strip()[1:-1].replace('"', '').split(",")
 
     closing_remarks_text = closing_remarks.strip()[1:-1].replace('"', '').split(",")
     
     closing_responses_text = closing_response.strip()[1:-1].replace('"', '').replace('-', '').split(",")
-    print(f"Agent Names:{agent_names_text}")
+    # print(f"Agent Names:{agent_names_text}")
     db.collection('gemini_lists').document(group_id).set({
                     'group_id': group_id,
                     'services_text': services_text,
                     'problems_text': problems_text,
                     'greetings_text':greetings_text,
-                    'agent_names_text':agent_names_text,
+                    # 'agent_names_text':agent_names_text,
                     'closing_remarks_text':closing_remarks_text,
                     'closing_responses_text':closing_responses_text,
                     'start_date': start_date,
