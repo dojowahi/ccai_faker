@@ -21,10 +21,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - id: 'auth'
-        uses: 'google-github-actions/auth@v2'
+        uses: 'google-github-actions/auth@v4'
         with:
           credentials_json: '${{ secrets.GCP_SA_KEY_JSON }}'
 
@@ -37,7 +37,7 @@ jobs:
       - name: Deploy each function with its specific trigger and env variables
         run: |
           # Zip Task 
-          echo " Deploying Zip Task Cloud function..."
+          echo " ################Deploying Zip Task Cloud function################"
           cd backend/zip_task
           gcloud functions deploy zip_ccai_task\
                                   --gen2 \
@@ -54,7 +54,7 @@ jobs:
           cd ../..
 
           # Check Status Task 
-          echo " Deploying Check Status  Cloud function..."
+          echo " ################Deploying Check Status Cloud function################"
           cd backend/check_status
 
           gcloud functions deploy check_ccai_status \
@@ -70,3 +70,38 @@ jobs:
                                   --allow-unauthenticated \
                                   --set-env-vars ZIP_TOPIC_ID=${{ env.ZIP_TOPIC }},BUCKET_NAME=${{ secrets.BUCKET_NAME }},PROJECT_ID=${{ secrets.GCP_PROJECT_ID }},FIRESTORE_DB=${{ secrets.FIRESTORE_DB }} \
                                   --service-account=${{ secrets.GCP_SA }} 
+
+          cd ../..
+
+          # Process Task 
+          echo " ################Deploying Process Task Cloud function####################"
+          cd backend/process_task
+          gcloud functions deploy process_ccai_task\
+              --gen2 \
+              --max-instances 8 \
+              --region ${{ env.GCP_REGION }} \
+              --source . \
+              --entry-point process_task \
+              --runtime ${{ env.RUNTIME }} \
+              --memory 1Gi \
+              --timeout 541 \
+              --trigger-topic ${TASK_TOPIC} \
+              --set-env-vars BUCKET_NAME=${{ secrets.BUCKET_NAME }},PROJECT_ID=${{ secrets.GCP_PROJECT_ID }},GEMINI_MODEL=${{ env.GEMINI_MODEL }},FIRESTORE_DB=${{ secrets.FIRESTORE_DB }} \
+              --service-account=${{ secrets.GCP_SA }}
+
+          cd ../..
+          # Start Task 
+          echo "###########################Deploy Start Task Cloud function#######################"
+          cd backend/start_task
+          gcloud functions deploy start_ccai_task \
+              --gen2 \
+              --max-instances 1 \
+              --region ${{ env.GCP_REGION }} \
+              --source . \
+              --entry-point start_task \
+              --runtime ${{ env.RUNTIME }} \
+              --memory 1Gi \
+              --trigger-topic ${{ env.START_TOPIC }} \
+              --timeout 540 \
+              --set-env-vars BUCKET_NAME=${{ secrets.BUCKET_NAME }},TASK_TOPIC_ID=${{ env.TASK_TOPIC }},PROJECT_ID=${{ secrets.PROJECT_ID }},GEMINI_MODEL=${{ env.GEMINI_MODEL }},FIRESTORE_DB=${{ secrets.FIRESTORE_DB }} \
+              --service-account=${{ secrets.GCP_SA }} 
