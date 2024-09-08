@@ -58,6 +58,7 @@ body {
 </style>
 ''')
 
+# Main function to create the UI for the CCAI Synthetic Call Generator
 def ccai_datagen():
     with theme.frame('CCAI Synthetic Call Generator'):
 # with ui.column().classes('container'):
