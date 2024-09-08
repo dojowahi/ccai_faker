@@ -71,12 +71,14 @@ def get_lists(group_id):
         services = data['services_text']
         problems = data['problems_text']
         greetings = data['greetings_text']
-        agent_names = data['agent_names_text']
+        # agent_names = data['agent_names_text']
         closing_remarks = data['closing_remarks_text']
         closing = data['closing_responses_text']
         start_date = data['start_date']
         end_date = data['end_date']
-        return services, problems, greetings, closing_remarks, closing, agent_names,start_date, end_date
+        # return services, problems, greetings, closing_remarks, closing, agent_names,start_date, end_date
+        return services, problems, greetings, closing_remarks, closing,start_date, end_date
+
     else:
         print(f"Error:Document does not exist")
 
@@ -121,10 +123,13 @@ def process_task(event, context):
     
     try:
         # services, problems, greetings, closing_remarks, closing, agent_names = generate_lists(company_name,company_website,company_reviews,temperature)
-        services, problems, greetings, closing_remarks, closing, agent_names,start_date,end_date = get_lists(group_id)
+        # services, problems, greetings, closing_remarks, closing, agent_names,start_date,end_date = get_lists(group_id)
+        services, problems, greetings, closing_remarks, closing,start_date,end_date = get_lists(group_id)
+
         log_date = random_date_between(start_date,end_date)
         print(f"Generate log for date {log_date}")
-        json_object = generate_log(company_name,services, problems, greetings, closing_remarks, closing, agent_names,temperature,log_date)
+        # json_object = generate_log(company_name,services, problems, greetings, closing_remarks, closing, agent_names,temperature,log_date)
+        json_object = generate_log(company_name,services, problems, greetings, closing_remarks, closing,temperature,log_date)
 
         if json_object is not None:
             storage_client = storage.Client()
@@ -191,7 +196,7 @@ safety_settings = {
 }
 
 
-def generate_log(company_name,services, problems, greetings, closing_remarks, closing_responses, agent_names, temperature,log_date,max_retries=3):
+def generate_log(company_name,services, problems, greetings, closing_remarks, closing_responses, temperature,log_date,max_retries=3):
     generation_config = GenerationConfig(
     temperature=temperature,
     top_p=1.0,
@@ -212,7 +217,7 @@ def generate_log(company_name,services, problems, greetings, closing_remarks, cl
     response_delay = random.randint(1000000, 10000000)
 
     # Pick a random agent name
-    agent_name = random.choice(agent_names)
+    # agent_name = random.choice(agent_names)
     customer_behavior = random.choice(["polite and patient", "frustrated and impatient", "angry and demanding", "confused and unsure"])
     # Generate a natural problem statement
     problem_statement_prompt = f"""
