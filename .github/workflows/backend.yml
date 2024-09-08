@@ -40,11 +40,6 @@ jobs:
       - name: 'Use gcloud CLI'
         run: 'gcloud info'
 
-      - name: Copy files to Cloud Storage
-        run: |
-          echo "Copying files to Cloud Storage..."
-          gsutil -m cp -r prompts/* gs://${{ secrets.BUCKET_NAME }}/prompts/
-
       - name: Deploy each function with its specific trigger and env variables
         run: |
           if [ ${{ matrix.function }} -eq 1 ]; then
