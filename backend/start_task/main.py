@@ -153,7 +153,6 @@ def start_task(event, context):
 
     try:
         for i in range(int(num_log_files)):
-            print(f"{i} task published for {group_id}")
             task_id = str(uuid.uuid4())
             message = {
                 "task_id": task_id,
@@ -165,6 +164,8 @@ def start_task(event, context):
                 "temperature": temperature,
                 "num_log_files": num_log_files
             }
+            print(f"{i} task {task_id} published for {group_id},{company_name},{company_website},{company_reviews},{type(num_log_files)}")
+
             # Insert n tasks into task topic id
             publish_to_pubsub(message)
             print(f"Insert {i} to Firestore")
