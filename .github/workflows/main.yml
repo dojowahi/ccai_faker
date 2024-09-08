@@ -45,7 +45,7 @@ jobs:
                                   --region ${{ env.GCP_REGION }} \
                                   --source . \
                                   --entry-point zip_task \
-                                  --runtime \
+                                  --runtime ${{ env.RUNTIME }} \
                                   --memory 1Gi \
                                   --timeout 1700 \
                                   --trigger-topic ${{ env.ZIP_TOPIC }} \
@@ -65,7 +65,7 @@ jobs:
                                   --entry-point check_status \
                                   --runtime ${{ env.RUNTIME }} \
                                   --memory 1Gi \
-                                  --timeout 1800 \
+                                  --timeout 1801 \
                                   --trigger-http \
                                   --allow-unauthenticated \
                                   --set-env-vars ZIP_TOPIC_ID=${{ env.ZIP_TOPIC }},BUCKET_NAME=${{ secrets.BUCKET_NAME }},PROJECT_ID=${{ secrets.GCP_PROJECT_ID }},FIRESTORE_DB=${{ secrets.FIRESTORE_DB }} \
