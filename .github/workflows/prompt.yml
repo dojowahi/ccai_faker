@@ -1,4 +1,4 @@
-name: Copy files to CLoud Storage
+name: Copy files to Cloud Storage
 
 on:
   push:
