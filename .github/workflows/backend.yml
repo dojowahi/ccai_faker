@@ -105,7 +105,7 @@ jobs:
                 --memory 1Gi \
                 --trigger-topic ${{ env.START_TOPIC }} \
                 --timeout 540 \
-                --set-env-vars BUCKET_NAME=${{ secrets.BUCKET_NAME }},TASK_TOPIC_ID=${{ env.TASK_TOPIC }},PROJECT_ID=${{ secrets.PROJECT_ID }},GEMINI_MODEL=${{ env.GEMINI_MODEL }},FIRESTORE_DB=${{ secrets.FIRESTORE_DB }} \
+                --set-env-vars BUCKET_NAME=${{ secrets.BUCKET_NAME }},TASK_TOPIC_ID=${{ env.TASK_TOPIC }},PROJECT_ID=${{ secrets.GCP_PROJECT_ID }},GEMINI_MODEL=${{ env.GEMINI_MODEL }},FIRESTORE_DB=${{ secrets.FIRESTORE_DB }} \
                 --service-account=${{ secrets.GCP_SA }} 
           fi
           cd ../..
