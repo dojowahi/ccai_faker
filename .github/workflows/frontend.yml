@@ -40,10 +40,10 @@ jobs:
           gcloud builds submit --tag ${{ env.GCP_REGION }}-docker.pkg.dev/${{ secrets.PROJECT_ID }}/genai/${{ env.APP_NAME }}:v1.0.0
           cd - 
 
-    - name: Deploy to Cloud Run
-      run: |
-        echo "Deploying to Cloud Run..."
-        gcloud run deploy ${{ env.APP_NAME }}-datagen \
-            --image ${{ env.GCP_REGION }}-docker.pkg.dev/${{ secrets.PROJECT_ID }}/genai/${{ env.APP_NAME }}:v1.0.0 \
-            --set-env-vars START_TOPIC_ID=${{ env.START_TOPIC_ID }},PROJECT_ID=${{ secrets.PROJECT_ID }}
-            --port ${{ env.PORT }} --service-account ${{ secrets.GCP_SA }}  --region ${{ env.GCP_REGION }} --allow-unauthenticated
+      - name: Deploy to Cloud Run
+        run: |
+          echo "Deploying to Cloud Run..."
+          gcloud run deploy ${{ env.APP_NAME }}-datagen \
+              --image ${{ env.GCP_REGION }}-docker.pkg.dev/${{ secrets.PROJECT_ID }}/genai/${{ env.APP_NAME }}:v1.0.0 \
+              --set-env-vars START_TOPIC_ID=${{ env.START_TOPIC_ID }},PROJECT_ID=${{ secrets.PROJECT_ID }}
+              --port ${{ env.PORT }} --service-account ${{ secrets.GCP_SA }}  --region ${{ env.GCP_REGION }} --allow-unauthenticated
