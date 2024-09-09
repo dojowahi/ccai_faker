@@ -85,9 +85,10 @@ def generate_lists(group_id,company_name,company_website,company_reviews,tempera
     greeting_prompt_file_path = "prompts/ccai_greeting_prompt.txt"
     greeting_prompt = load_prompt(greeting_prompt_file_path).replace("company_name",company_name)
     hardcoded_greeting = f"Hello, my name is {agent_name}."
+    print(f"Hard:{hardcoded_greeting}")
     
-    agent_prompt_file_path = "prompts/ccai_agent_prompt.txt"
-    agent_name_prompt = load_prompt(agent_prompt_file_path).replace("company_name",company_name)
+    # agent_prompt_file_path = "prompts/ccai_agent_prompt.txt"
+    # agent_name_prompt = load_prompt(agent_prompt_file_path).replace("company_name",company_name)
     closing_prompt_file_path = "prompts/ccai_closing_prompt.txt"
     closing_prompt = load_prompt(closing_prompt_file_path).replace("company_name",company_name)
   
@@ -104,7 +105,8 @@ def generate_lists(group_id,company_name,company_website,company_reviews,tempera
     problems_text = problem.strip()[1:-1].replace('"', '').replace("\n", "").split(",")
 
     greetings_llm = greeting.strip()[1:-1].replace('"', '').replace("\n", "").split(",")
-    greetings_text = hardcoded_greeting + greetings_llm
+    greetings_text = greetings_llm.append(hardcoded_greeting)
+    print(f"Greetings:{greetings_text}")
 
 
     # agent_names_text = agent.strip()[1:-1].replace('"', '').split(",")
