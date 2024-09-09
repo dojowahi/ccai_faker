@@ -67,6 +67,7 @@ def ccai_datagen():
         company_name_input = ui.input(label='Company Name', value='Ulta Beauty').props('rounded outlined dense').classes('q-mb-sm ')
         company_website_input = ui.input(label='Company Website', value='https://www.ulta.com/').props('size=50 rounded outlined dense').classes('q-mb-sm ')
         company_reviews_input = ui.input(label='Company Reviews', value='https://www.trustpilot.com/review/www.ulta.com').props("size=80 rounded outlined dense").classes('q-mb-sm')
+        agent_name_input = ui.input(label='Agent Name', value='John').props("size=30 rounded outlined dense").classes('q-mb-sm')
 
         # with ui.row().classes('items-center q-mb-sm'):  # Align number input and buttons in a row
         num_log_files_input = ui.number(label='Number of log files', value=1, min=1, max=10001, precision=0,step=1).props('rounded outlined dense').style('width: 150px').classes('q-mb-sm')
@@ -110,10 +111,11 @@ def ccai_datagen():
                 "company_reviews": company_reviews_input.value,
                 "temperature": temperature_slider.value,
                 "num_log_files": int(num_log_files_input.value),
+                "agent_name": agent_name_input.value,
                 "start_date": start_date.value,
                 "end_date": end_date.value
             }
-            print(f"Log files:{num_log_files_input.value}, Company_Name:{company_name_input.value}, GroupId:{group_id}, StartDate:{start_date.value}")
+            print(f"Log files:{num_log_files_input.value}, Company_Name:{company_name_input.value}, GroupId:{group_id}, StartDate:{start_date.value}, AgentName:{agent_name_input.value}")
 
 
             publish_to_pubsub(message)

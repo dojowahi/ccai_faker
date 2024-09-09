@@ -1,2 +1,3 @@
-List 50 different realistic ways a company_name customer service representative might greet a customer on the phone, ensuring each greeting uses a UNIQUE and DISTINCT agent name. 
-Include both a greeting and an offer to assist, mirroring company_name professional style. Use a diverse range of realistic first names (both female and male). The agent names should be diverse, representing various genders and cultural backgrounds. Output should be a list only ["greeting1","greeting2"]
+List 5 different realistic ways a company_name customer service representative might offer to assist a customer on the phone, ensuring each greeting is UNIQUE and DISTINCT. The greetings should mirror Vail Resorts' professional style and include a variety of ways to offer assistance.
+    Example output: ["How may I help you today?", "How can I assist you?", "What can I do for you today?", "How may I assist you with your vacation and reservation needs today?", "How may I help you today?"]
+    Do not generate anything else other than the list.

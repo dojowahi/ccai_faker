@@ -70,7 +70,7 @@ def load_prompt(object_name):
         return f"Error loading prompt: {e}"
 
 #Generate sample data which will be inserted into Firestore DB    
-def generate_lists(group_id,company_name,company_website,company_reviews,temperature,start_date,end_date):
+def generate_lists(group_id,company_name,company_website,company_reviews,temperature,start_date,end_date,agent_name):
     generation_config = GenerationConfig(
     temperature=temperature,
     top_p=1.0,
@@ -84,7 +84,7 @@ def generate_lists(group_id,company_name,company_website,company_reviews,tempera
     problem_prompt = load_prompt(problem_prompt_file_path).replace("company_name",company_name).replace("review_website",company_reviews)
     greeting_prompt_file_path = "prompts/ccai_greeting_prompt.txt"
     greeting_prompt = load_prompt(greeting_prompt_file_path).replace("company_name",company_name)
-
+    hardcoded_greeting = f"Hello, my name is {agent_name}."
     
     agent_prompt_file_path = "prompts/ccai_agent_prompt.txt"
     agent_name_prompt = load_prompt(agent_prompt_file_path).replace("company_name",company_name)
@@ -96,7 +96,6 @@ def generate_lists(group_id,company_name,company_website,company_reviews,tempera
     service = get_gemini_response(model,service_prompt, generation_config=generation_config)
     problem = get_gemini_response(model,problem_prompt, generation_config=generation_config)
     greeting = get_gemini_response(model,greeting_prompt, generation_config=generation_config)
-    agent = get_gemini_response(model,agent_name_prompt, generation_config=generation_config)
     closing_remarks = get_gemini_response(model,closing_prompt, generation_config=generation_config)
     closing_response = get_gemini_response(model,closing_response_prompt, generation_config=generation_config)
 
@@ -104,7 +103,9 @@ def generate_lists(group_id,company_name,company_website,company_reviews,tempera
 
     problems_text = problem.strip()[1:-1].replace('"', '').replace("\n", "").split(",")
 
-    greetings_text = greeting.strip()[1:-1].replace('"', '').replace("\n", "").split(",")
+    greetings_llm = greeting.strip()[1:-1].replace('"', '').replace("\n", "").split(",")
+    greetings_text = hardcoded_greeting + greetings_llm
+
 
     # agent_names_text = agent.strip()[1:-1].replace('"', '').split(",")
 
@@ -117,7 +118,6 @@ def generate_lists(group_id,company_name,company_website,company_reviews,tempera
                     'services_text': services_text,
                     'problems_text': problems_text,
                     'greetings_text':greetings_text,
-                    # 'agent_names_text':agent_names_text,
                     'closing_remarks_text':closing_remarks_text,
                     'closing_responses_text':closing_responses_text,
                     'start_date': start_date,
@@ -143,13 +143,14 @@ def start_task(event, context):
         company_reviews = message['company_reviews']
         temperature = message['temperature']
         num_log_files = message['num_log_files']
+        agent_name =  message['agent_name']
         start_date = message['start_date']
         end_date = message['end_date']
-        print(f"Log files:{num_log_files}, Company_Name:{company_name}, Temperature:{temperature}")
+        print(f"Log files:{num_log_files}, Company_Name:{company_name}, Temperature:{temperature}, Agent_Name:{agent_name}")
     except Exception as e:
         print(f"Unable to parse message {e}")
 
-    generate_lists(group_id,company_name,company_website,company_reviews,temperature,start_date,end_date)
+    generate_lists(group_id,company_name,company_website,company_reviews,temperature,start_date,end_date,agent_name)
 
     try:
         for i in range(int(num_log_files)):
@@ -159,8 +160,6 @@ def start_task(event, context):
                 "group_id": group_id,
                 "index": i,
                 "company_name": company_name,
-                "company_website": company_website,
-                "company_reviews": company_reviews,
                 "temperature": temperature,
                 "num_log_files": num_log_files
             }

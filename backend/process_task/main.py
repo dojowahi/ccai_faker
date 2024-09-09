@@ -112,8 +112,6 @@ def process_task(event, context):
         group_id = message['group_id']
         index = message['index']
         company_name = message['company_name']
-        company_website = message['company_website']
-        company_reviews = message['company_reviews']
         temperature = message['temperature']
         num_log_files = message['num_log_files']
 
@@ -239,7 +237,8 @@ def generate_log(company_name,services, problems, greetings, closing_remarks, cl
             # logger.info(f"randomness:{random.choice(greetings)},{random.choice(closing_remarks)}")
             # Enhanced Prompt Template (with customer_statement variable):
             prompt_template = f"""
-            Create a customer support transcript where {company_name} agent helps a customer with their {service}. 
+            Create a customer support transcript where {company_name} agent helps a customer with their {service}.
+            The agent's name is the same as the one used in their initial greeting. 
             Adhere strictly to this format:
             Agent: [Agent's greeting]
             Customer: {customer_statement}
@@ -258,6 +257,7 @@ def generate_log(company_name,services, problems, greetings, closing_remarks, cl
             *   The conversation MUST include troubleshooting steps and a resolution.
             *   Focus on a single core issue the customer is experiencing
             *   The customer is "{customer_behavior}"
+            *   Do not assume the customer's name is the same as the agent's
            """
 
             # logger.info(f"Prompt template:{prompt_template}")
