@@ -133,8 +133,8 @@ def generate_lists(group_id,company_name,company_website,company_reviews,tempera
 def start_task(event, context):
     # Extract msg from start topic id. The msg was insterd by the UI
     pubsub_message = base64.b64decode(event['data']).decode('utf-8')
-    event_id = context.event_id
-    event_type = context.event_type
+    # event_id = context.event_id
+    # event_type = context.event_type
 
     try:
         # Parse the JSON message
