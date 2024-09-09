@@ -281,7 +281,7 @@ def generate_log(company_name,services, problems, greetings, closing_remarks, cl
 
             # Enhanced Transcript Parsing with Logic to Prevent Unnatural Endings
             entries = []
-            current_speaker = None
+            # current_speaker = None
             customer_said_no = False 
             short_customer_response = False
             agent_asked_anything_else = False
