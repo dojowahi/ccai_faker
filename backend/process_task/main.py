@@ -100,8 +100,8 @@ def process_task(event, context):
     start_time = time.time()
     pubsub_message = base64.b64decode(event['data']).decode('utf-8')
     # print(f"PubSub type {type(pubsub_message)} and Message - {pubsub_message}")
-    event_id = context.event_id
-    event_type = context.event_type
+    # event_id = context.event_id
+    # event_type = context.event_type
 
     # print(f"A new event is received: id={event_id}, type={event_type}")
     # Extract data
