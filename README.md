@@ -1,4 +1,4 @@
-# Project Name
+# CCAI Faker
 
 ![Architecture Diagram](/static/ccai_faker_architeture.png)
 
