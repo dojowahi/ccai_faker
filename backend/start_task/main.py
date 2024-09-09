@@ -104,7 +104,7 @@ def generate_lists(group_id,company_name,company_website,company_reviews,tempera
 
     greetings_text = greeting.strip()[1:-1].replace('"', '').replace("\n", "").split(",")
     # agent_names_text = agent.strip()[1:-1].replace('"', '').split(",")
-
+    print(f"Greetings:{greetings_text}")
     closing_remarks_text = closing_remarks.strip()[1:-1].replace('"', '').split(",")
     
     closing_responses_text = closing_response.strip()[1:-1].replace('"', '').replace('-', '').split(",")
