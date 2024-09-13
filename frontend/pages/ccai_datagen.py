@@ -100,10 +100,20 @@ def ccai_datagen():
         output_label = ui.label()
 
         def submit():
+            if not all([
+                company_name_input.value,
+                company_website_input.value,
+                company_reviews_input.value,
+                agent_name_input.value,
+                num_log_files_input.value,
+                start_date.value,
+                end_date.value
+            ]):
+                ui.notify("Please fill in all the fields.", type="negative")
+                return
+            
             group_id = str(uuid.uuid4())
             
-            
-
             message = {
                 "group_id": group_id,
                 "company_name": company_name_input.value,
