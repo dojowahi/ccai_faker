@@ -16,4 +16,4 @@ def index_page() -> None:
 all_pages.create()
 
 
-ui.run(title='CCAI Log generator')
+ui.run(title='Data generator')

@@ -45,5 +45,5 @@ jobs:
           echo "Deploying to Cloud Run..."
           gcloud run deploy ${{ env.APP_NAME }}-generator \
               --image ${{ env.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/genai/${{ env.APP_NAME }}:v1.0.0 \
-              --set-env-vars START_TOPIC_ID=${{ env.START_TOPIC_ID }},PROJECT_ID=${{ secrets.GCP_PROJECT_ID }} \
+              --set-env-vars START_TOPIC_ID=${{ env.START_TOPIC_ID }},PROJECT_ID=${{ secrets.GCP_PROJECT_ID }},SENDER_EMAIL=${{ secrets.SENDER_EMAIL }},SENDER_PWD=${{ secrets.SENDER_PWD }} \
               --port ${{ env.PORT }} --service-account ${{ secrets.GCP_SA }}  --region ${{ env.GCP_REGION }} --allow-unauthenticated

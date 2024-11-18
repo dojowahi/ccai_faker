@@ -9,6 +9,9 @@ import os
 import datetime
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 load_dotenv()
 
 # Uses values from .env, good for local testing
@@ -18,11 +21,42 @@ load_dotenv()
 # Use value from github action
 project_id = os.environ.get('PROJECT_ID')
 topic_id = os.environ.get('START_TOPIC_ID')
+sender_email = os.environ.get('SENDER_EMAIL')
+# The password was setup for a Google Account via App Password
+sender_pwd = os.environ.get('SENDER_PWD')
 # Initialize Pub/Sub
 
 
 publisher = pubsub_v1.PublisherClient()
 topic_path = publisher.topic_path(project_id, topic_id)
+
+
+def send_email(sender_email, sender_password, receiver_email, subject,body):
+  """
+  Sends an email with the given parameters.
+
+  Args:
+    sender_email: The sender's email address.
+    sender_password: The sender's email password.
+    receiver_email: The recipient's email address.
+    subject: The subject of the email.
+    body: The body of the email.
+  """
+
+  message = MIMEMultipart()
+  message['From'] = sender_email
+  message['To'] = receiver_email
+  message['Subject'] = subject
+  message.attach(MIMEText(body, 'plain'))
+  try:
+    server = smtplib.SMTP('smtp.gmail.com', 587)
+    server.starttls()
+    server.login(sender_email, sender_password)
+    server.sendmail(sender_email, receiver_email,message.as_string())
+    server.quit()
+    print("Email sent successfully!")
+  except Exception as e:
+    print(f"Error sending email: {e}")
 
 
 def publish_to_pubsub(message):
@@ -71,7 +105,8 @@ def ccai_datagen():
 
         # with ui.row().classes('items-center q-mb-sm'):  # Align number input and buttons in a row
         num_log_files_input = ui.number(label='Number of log files', value=1, min=1, max=10001, precision=0,step=1).props('rounded outlined dense').style('width: 150px').classes('q-mb-sm')
-        
+        reciever_email = ui.input(label='Notification Email', value='you@google.com').props("size=30 rounded outlined dense").classes('q-mb-sm')
+
         with ui.input('Log Start Date') as start_date:
             with ui.menu().props('no-parent-event') as menu:
                 with ui.date().bind_value(start_date):
@@ -132,6 +167,12 @@ def ccai_datagen():
             
 
             output_label.text = f"Submitted {num_log_files_input.value} tasks with Group ID: {group_id}"
+            # Example usage:
+            send_email(sender_email, 
+                sender_pwd, 
+                reciever_email, 
+                'Group Id', 
+                f'Use this {group_id} to check status')
 
 
         ui.button('Generate Synthetic Calls', on_click=submit).classes('bg-primary text-white')
