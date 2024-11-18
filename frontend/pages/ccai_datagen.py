@@ -105,7 +105,7 @@ def ccai_datagen():
 
         # with ui.row().classes('items-center q-mb-sm'):  # Align number input and buttons in a row
         num_log_files_input = ui.number(label='Number of log files', value=1, min=1, max=10001, precision=0,step=1).props('rounded outlined dense').style('width: 150px').classes('q-mb-sm')
-        reciever_email = ui.input(label='Notification Email', value='you@google.com').props("size=30 rounded outlined dense").classes('q-mb-sm')
+        notification_email = ui.input(label='Notification Email').props("size=30 rounded outlined dense").classes('q-mb-sm')
 
         with ui.input('Log Start Date') as start_date:
             with ui.menu().props('no-parent-event') as menu:
@@ -142,7 +142,8 @@ def ccai_datagen():
                 agent_name_input.value,
                 num_log_files_input.value,
                 start_date.value,
-                end_date.value
+                end_date.value,
+                notification_email.value
             ]):
                 ui.notify("Please fill in all the fields.", type="negative")
                 return
@@ -170,7 +171,7 @@ def ccai_datagen():
             # Example usage:
             send_email(sender_email, 
                 sender_pwd, 
-                reciever_email, 
+                notification_email.value, 
                 'Group Id', 
                 f'Use this {group_id} to check status')
 
