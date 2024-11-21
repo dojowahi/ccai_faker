@@ -21,7 +21,7 @@ logger = logging.getLogger()
 bucket_name = os.getenv('BUCKET_NAME')
 project_id = os.getenv('PROJECT_ID')
 db_firestore = os.getenv('FIRESTORE_DB') 
-# Sample key_blob_name : ccai_gemini_datagen/sa_key/gen-ai-4all-8cf2714638bc.json stored in Github secrets. The JSON file is uploaded to the bucket ccai_gemini_datagen/sa_key
+# Sample key_blob_name : sa_key/gen-ai-4all-8cf2714638bc.json stored in Github secrets. The JSON file is uploaded to the bucket ccai_gemini_datagen/sa_key
 key_blob_name = os.getenv('KEY_BLOB_NAME')
 expiration_minutes = int(os.getenv('EXPIRATION_MIN'))
 current_timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
