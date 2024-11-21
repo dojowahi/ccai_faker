@@ -21,6 +21,7 @@ logger = logging.getLogger()
 bucket_name = os.getenv('BUCKET_NAME')
 project_id = os.getenv('PROJECT_ID')
 db_firestore = os.getenv('FIRESTORE_DB') 
+# Sample key_blob_name : ccai_gemini_datagen/sa_key/gen-ai-4all-8cf2714638bc.json stored in Github secrets. The JSON file is uploaded to the bucket ccai_gemini_datagen/sa_key
 key_blob_name = os.getenv('KEY_BLOB_NAME')
 expiration_minutes = int(os.getenv('EXPIRATION_MIN'))
 current_timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
@@ -79,7 +80,7 @@ def zip_files_and_create_signed_url(folder_name, zip_file_name, expiration_minut
         # Initialize GCS clients and download service account key
         storage_client = storage.Client()
         bucket = storage_client.bucket(bucket_name)
-        key_blob = bucket.blob(key_blob_name)
+        key_blob = bucket.blob(key_blob_name) 
         key_json_content = key_blob.download_as_bytes()
         credentials = service_account.Credentials.from_service_account_info(
             json.loads(key_json_content)
