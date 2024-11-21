@@ -70,7 +70,7 @@ def load_prompt(object_name):
         return f"Error loading prompt: {e}"
 
 #Generate sample data which will be inserted into Firestore DB    
-def generate_lists(group_id,company_name,company_website,company_reviews,temperature,start_date,end_date,agent_name):
+def generate_lists(group_id,company_name,company_website,company_reviews,temperature,start_date,end_date,agent_name,notification_email):
     generation_config = GenerationConfig(
     temperature=temperature,
     top_p=1.0,
@@ -118,6 +118,7 @@ def generate_lists(group_id,company_name,company_website,company_reviews,tempera
                     'closing_responses_text':closing_responses_text,
                     'start_date': start_date,
                     'end_date': end_date,
+                    'notification_email': notification_email,
                     'timestamp': current_timestamp
                 })
     # logger.info(f"Responses:{services_text}->{problems_text}->{greetings_text}->{closing_responses_text}")
@@ -142,11 +143,12 @@ def start_task(event, context):
         agent_name =  message['agent_name']
         start_date = message['start_date']
         end_date = message['end_date']
+        notification_email = message['notification_email']
         print(f"Log files:{num_log_files}, Company_Name:{company_name}, Temperature:{temperature}, Agent_Name:{agent_name}")
     except Exception as e:
         print(f"Unable to parse message {e}")
 
-    generate_lists(group_id,company_name,company_website,company_reviews,temperature,start_date,end_date,agent_name)
+    generate_lists(group_id,company_name,company_website,company_reviews,temperature,start_date,end_date,agent_name,notification_email)
 
     try:
         for i in range(int(num_log_files)):

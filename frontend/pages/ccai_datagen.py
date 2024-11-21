@@ -22,7 +22,7 @@ load_dotenv()
 project_id = os.environ.get('PROJECT_ID')
 topic_id = os.environ.get('START_TOPIC_ID')
 sender_email = os.environ.get('SENDER_EMAIL')
-# The password was setup for a Google Account via App Password
+# The password was setup for a Google Account(wahi80) via App Password: https://support.google.com/mail/answer/185833?hl=en
 sender_pwd = os.environ.get('SENDER_PWD')
 # Initialize Pub/Sub
 
@@ -159,6 +159,7 @@ def ccai_datagen():
                 "num_log_files": int(num_log_files_input.value),
                 "agent_name": agent_name_input.value,
                 "start_date": start_date.value,
+                "notification_email": notification_email.value,
                 "end_date": end_date.value
             }
             print(f"Log files:{num_log_files_input.value}, Company_Name:{company_name_input.value}, GroupId:{group_id}, StartDate:{start_date.value}, AgentName:{agent_name_input.value}")

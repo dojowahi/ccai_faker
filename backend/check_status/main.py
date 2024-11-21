@@ -16,6 +16,9 @@ import os
 import datetime
 import base64
 import uuid
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 
 current_timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
 logging.basicConfig(level=logging.INFO)
@@ -25,6 +28,9 @@ bucket_name = os.getenv('BUCKET_NAME')
 project_id = os.getenv('PROJECT_ID')
 db_firestore = os.getenv('FIRESTORE_DB') #ccai-faker
 topic_id = os.getenv("ZIP_TOPIC_ID") #Topic where zipping details will be inserted
+sender_email = os.environ.get('SENDER_EMAIL')
+# The password was setup for a Google Account(wahi80) via App Password: https://support.google.com/mail/answer/185833?hl=en
+sender_pwd = os.environ.get('SENDER_PWD')
 
 
 db = firestore.Client(database=db_firestore)
@@ -35,6 +41,34 @@ def publish_to_pubsub(message):
     message_data = json.dumps(message).encode("utf-8")
     future = publisher.publish(topic_path, message_data)
     future.result()
+
+def send_email(sender_email, sender_password, receiver_email, subject,body):
+  """
+  Sends an email with the given parameters.
+
+  Args:
+    sender_email: The sender's email address.
+    sender_password: The sender's email password.
+    receiver_email: The recipient's email address.
+    subject: The subject of the email.
+    body: The body of the email.
+  """
+
+  message = MIMEMultipart()
+  message['From'] = sender_email
+  message['To'] = receiver_email
+  message['Subject'] = subject
+  message.attach(MIMEText(body, 'plain'))
+  try:
+    server = smtplib.SMTP('smtp.gmail.com', 587)
+    server.starttls()
+    server.login(sender_email, sender_password)
+    server.sendmail(sender_email, receiver_email,message.as_string())
+    server.quit()
+    print("Email sent successfully!")
+  except Exception as e:
+    print(f"Error sending email: {e}")
+
 
 @functions_framework.http
 def check_status(request):
@@ -104,6 +138,12 @@ def check_status(request):
             signed_url = check_zip_file_exist(group_id)
             print(f"Signed URL from {signed_url}")
             if signed_url:
+                send_email(sender_email, 
+                sender_pwd, 
+                "ankurwahi@google.com", 
+                'Group Id', 
+                f'Use this {group_id} to check status')
+
                 return {
                 "message": "Job completed. ",
                 "status_counts": status_counts,

@@ -73,7 +73,7 @@ jobs:
                                     --timeout 1801 \
                                     --trigger-http \
                                     --allow-unauthenticated \
-                                    --set-env-vars ZIP_TOPIC_ID=${{ env.ZIP_TOPIC }},BUCKET_NAME=${{ secrets.BUCKET_NAME }},PROJECT_ID=${{ secrets.GCP_PROJECT_ID }},FIRESTORE_DB=${{ secrets.FIRESTORE_DB }} \
+                                    --set-env-vars ZIP_TOPIC_ID=${{ env.ZIP_TOPIC }},BUCKET_NAME=${{ secrets.BUCKET_NAME }},PROJECT_ID=${{ secrets.GCP_PROJECT_ID }},FIRESTORE_DB=${{ secrets.FIRESTORE_DB }},SENDER_EMAIL=${{ secrets.SENDER_EMAIL }},SENDER_PWD=${{ secrets.SENDER_PWD }} \
                                     --service-account=${{ secrets.GCP_SA }} 
           elif [ ${{ matrix.function }} -eq 3 ]; then
             # Process Task 
