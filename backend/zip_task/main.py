@@ -12,7 +12,9 @@ from google.api_core.exceptions import TooManyRequests
 import zipfile
 from google.oauth2 import service_account
 import io
-
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
@@ -25,9 +27,51 @@ db_firestore = os.getenv('FIRESTORE_DB')
 key_blob_name = os.getenv('KEY_BLOB_NAME')
 expiration_minutes = int(os.getenv('EXPIRATION_MIN'))
 current_timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
+sender_email = os.environ.get('SENDER_EMAIL')
+# The password was setup for a Google Account(wahi80) via App Password: https://support.google.com/mail/answer/185833?hl=en
+sender_pwd = os.environ.get('SENDER_PWD')
 
 # Initialize Firestore client
 db = firestore.Client(database=db_firestore)
+
+def send_email(sender_email, sender_password, receiver_email, subject,body):
+  """
+  Sends an email with the given parameters.
+
+  Args:
+    sender_email: The sender's email address.
+    sender_password: The sender's email password.
+    receiver_email: The recipient's email address.
+    subject: The subject of the email.
+    body: The body of the email.
+  """
+
+  message = MIMEMultipart()
+  message['From'] = sender_email
+  message['To'] = receiver_email
+  message['Subject'] = subject
+  message.attach(MIMEText(body, 'plain'))
+  try:
+    server = smtplib.SMTP('smtp.gmail.com', 587)
+    server.starttls()
+    server.login(sender_email, sender_password)
+    server.sendmail(sender_email, receiver_email,message.as_string())
+    server.quit()
+    print("Email sent successfully!")
+  except Exception as e:
+    print(f"Error sending email: {e}")
+
+def get_notification_email(group_id):
+    doc_ref = db.collection('gemini_lists').document(group_id)
+    doc = doc_ref.get()
+    if doc.exists:
+    # Retrieve the data as a dictionary
+        data = doc.to_dict()
+        notification_email = data['notification_email']
+        return notification_email
+    else:
+        return "ankurwahi@google.com"
+
 
 def zip_task(event, context):
     # Decode and parse the Pub/Sub message
@@ -75,9 +119,10 @@ def zip_task(event, context):
         print(f"Upload failed after retries: {e}")
         
 # Create zip file and signed_url for download
-def zip_files_and_create_signed_url(folder_name, zip_file_name, expiration_minutes=60):
+def zip_files_and_create_signed_url(folder_name, zip_file_name,group_id, expiration_minutes=360):
     try:
         # Initialize GCS clients and download service account key
+        notification_email = get_notification_email(group_id)
         storage_client = storage.Client()
         bucket = storage_client.bucket(bucket_name)
         key_blob = bucket.blob(key_blob_name) 
@@ -112,6 +157,11 @@ def zip_files_and_create_signed_url(folder_name, zip_file_name, expiration_minut
                 method='GET',
                 version='v4'
             )
+            send_email(sender_email, 
+                sender_pwd, 
+                notification_email, 
+                f'Download files for Group Id {group_id}', 
+                f'This UR: {url} is valid for next hour')
         except Exception as e:
             return f"Error unable to generate signed url:{str(e)}"
         return url
