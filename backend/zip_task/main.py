@@ -93,7 +93,7 @@ def zip_task(event, context):
 
     try:
         # Zip files and generate a signed URL
-        signed_url = zip_files_and_create_signed_url(folder,zip_name,expiration_minutes)
+        signed_url = zip_files_and_create_signed_url(folder,zip_name,group_id,expiration_minutes)
         if signed_url.startswith("Error"):
             # Handle errors during zip creation or URL generation
             db.collection('zip_repo').document(zip_id).set({
