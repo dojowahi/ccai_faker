@@ -173,7 +173,7 @@ def ccai_datagen():
             send_email(sender_email, 
                 sender_pwd, 
                 notification_email.value, 
-                'Group Id', 
+                f'Job {group_id} for {company_name_input.value}- STARTED', 
                 f'Use this {group_id} to check status')
 
 

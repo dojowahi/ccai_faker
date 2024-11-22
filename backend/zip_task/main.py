@@ -161,7 +161,7 @@ def zip_files_and_create_signed_url(folder_name, zip_file_name,group_id, expirat
                 sender_pwd, 
                 notification_email, 
                 f'Download files for Group Id {group_id}', 
-                f'This UR: {url} is valid for next hour')
+                f'This URL: {url} is valid for next hour')
         except Exception as e:
             return f"Error unable to generate signed url:{str(e)}"
         return url
