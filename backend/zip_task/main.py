@@ -1,20 +1,16 @@
 import base64
-import json
 import datetime
-from google.cloud import firestore
-from google.cloud import storage
-from google.api_core import retry
-from google.api_core.exceptions import ServiceUnavailable
-import os 
-import logging
-import json
-from google.api_core.exceptions import TooManyRequests
-import zipfile
-from google.oauth2 import service_account
 import io
+import json
+import logging
+import os
 import smtplib
-from email.mime.text import MIMEText
+import zipfile
 from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
+from google.cloud import firestore, storage
+from google.oauth2 import service_account
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
@@ -30,6 +26,7 @@ current_timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
 sender_email = os.environ.get('SENDER_EMAIL')
 # The password was setup for a Google Account(wahi80) via App Password: https://support.google.com/mail/answer/185833?hl=en
 sender_pwd = os.environ.get('SENDER_PWD')
+logger.info(f"Key name:{key_blob_name}")
 
 # Initialize Firestore client
 db = firestore.Client(database=db_firestore)
