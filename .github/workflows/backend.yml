@@ -13,7 +13,7 @@ env:
   START_TOPIC: start_ccai
   TASK_TOPIC: task_ccai
   ZIP_TOPIC: zip_ccai 
-  GEMINI_MODEL: gemini-1.5-flash-001
+  GEMINI_MODEL: gemini-2.5-flash
   EXPIRATION_MIN: 260         
 
 jobs:

@@ -4,7 +4,7 @@ ZIP_TOPIC="zip_ccai"
 FIRESTORE_DB="ccai-faker"
 BUCKET_NAME="ccai_gemini_datagen"
 PROJECT_ID="gen-ai-4all"
-GEMINI_MODEL="gemini-1.5-flash-001"
+GEMINI_MODEL="gemini-2.5-flash"
 EXPIRATION_MIN=260
 
 echo "#########################Create PubSub topic##########################3"
