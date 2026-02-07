@@ -14,7 +14,7 @@ bucket_name = os.getenv('BUCKET_NAME')
 project_id = os.getenv("PROJECT_ID")
 topic_id = os.getenv("TASK_TOPIC_ID") #Topic where tasks will be inserted
 db_firestore = os.getenv('FIRESTORE_DB') #ccai_faker
-model_name = os.getenv('GEMINI_MODEL')
+model_name = os.getenv('GEMINI_MODEL') # set in Github workflow and setuo_cloud,sh
 current_timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
 
 
